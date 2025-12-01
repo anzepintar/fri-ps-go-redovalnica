@@ -1,23 +1,23 @@
-// Paket za preprosto vodenje ocen
+// Paket redovalnica omogoča upravljanje z ocenami študentov.
 package redovalnica
 
 import "fmt"
 
-// Student predstavlja študenta
+// Student predstavlja študenta z osebnimi podatki in ocenami.
 type Student struct {
 	Ime     string
 	Priimek string
 	Ocene   []int
 }
 
-// Config so nastavitve ocenovanja
+// Config hrani nastavitve za upravljanje ocen.
 type Config struct {
-	MinOcena int // najmanjša ocena
-	MaxOcena int // največja ocena
-	StOcen   int // minimalno št. ocen
+	MinOcena int // Najnižja možna ocena
+	MaxOcena int // Najvišja možna ocena
+	StOcen   int // Minimalno število ocen
 }
 
-// DefaultConfig vrne privzete nastavitve (1–10, min 3)
+// DefaultConfig vrne privzete nastavitve (ocene 1-10, min 3 ocene).
 func DefaultConfig() Config {
 	return Config{
 		MinOcena: 1,
@@ -26,7 +26,8 @@ func DefaultConfig() Config {
 	}
 }
 
-// DodajOceno doda oceno študentu
+// DodajOceno doda oceno študentu z dano vpisno številko.
+// Preveri, ali je ocena veljavna glede na nastavitve.
 func DodajOceno(studenti map[string]Student, vpisnaStevilka string, ocena int, cfg Config) {
 	if ocena < cfg.MinOcena || ocena > cfg.MaxOcena {
 		fmt.Printf("Ocena mora biti med %d in %d.\n", cfg.MinOcena, cfg.MaxOcena)
@@ -40,7 +41,7 @@ func DodajOceno(studenti map[string]Student, vpisnaStevilka string, ocena int, c
 	}
 }
 
-// povprecje izračuna povprečje (skrito)
+// povprecje izračuna povprečno oceno študenta.
 func povprecje(studenti map[string]Student, vpisnaStevilka string) float64 {
 	if student, found := studenti[vpisnaStevilka]; found {
 		if len(student.Ocene) == 0 {
@@ -56,7 +57,7 @@ func povprecje(studenti map[string]Student, vpisnaStevilka string) float64 {
 	return -1.0
 }
 
-// IzpisVsehOcen izpiše vse ocene
+// IzpisVsehOcen izpiše seznam vseh študentov in njihovih ocen.
 func IzpisVsehOcen(studenti map[string]Student) {
 	fmt.Println("REDOVALNICA:")
 	for vpis, student := range studenti {
@@ -64,7 +65,8 @@ func IzpisVsehOcen(studenti map[string]Student) {
 	}
 }
 
-// IzpisiKoncniUspeh izpiše končni uspeh
+// IzpisiKoncniUspeh izpiše končni uspeh za vse študente.
+// Uspeh se določi na podlagi povprečja in števila ocen.
 func IzpisiKoncniUspeh(studenti map[string]Student, cfg Config) {
 	fmt.Println("KONČNI USPEH:")
 	for vpis, student := range studenti {
