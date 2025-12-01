@@ -13,7 +13,7 @@ vendor/
 go.work
 
 # Build artifacts
-redovalnica
 fri-ps-go-redovalnica
+studenti-redovalnica
 
 *.old
